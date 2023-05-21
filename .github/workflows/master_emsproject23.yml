@@ -6,7 +6,7 @@ name: Build and deploy container app to Azure Web App - emsproject23
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
