@@ -1,6 +1,6 @@
-﻿using MKsEMS.Models;
+﻿using emsproject23.Models;
 
-namespace MKsEMS.ViewModels
+namespace emsproject23.ViewModels
 {
     public class CurrentUser
     {

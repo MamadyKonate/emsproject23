@@ -1,4 +1,4 @@
-﻿namespace MKsEMS.Services
+﻿namespace emsproject23.Services
 {
     public static class GenerateRandomPass
     {

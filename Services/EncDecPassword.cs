@@ -1,8 +1,6 @@
-﻿using MKsEMS.Data;
-using SQLitePCL;
-using System.Linq;
+﻿using emsproject23.Data;
 using System.Text;
-namespace MKsEMS.Services
+namespace emsproject23.Services
 {
     public static class EncDecPassword
     { 

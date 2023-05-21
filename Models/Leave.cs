@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MKsEMS.Models
+namespace emsproject23.Models
 {
     public class Leave
     {

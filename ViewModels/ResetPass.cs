@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MKsEMS.ViewModels
+namespace emsproject23.ViewModels
 {
     public class ResetPass
     {
