@@ -1,0 +1,79 @@
+﻿@model emsproject23.Models.Contact
+
+@{
+    string noEmail = "", userEmail = "";
+    ViewData["Title"] = "Now, please create a contact for: ";
+    
+    if(TempData["userEmail"] != null){
+        userEmail = TempData["userEmail"].ToString();
+    }
+    else
+    {
+        ViewData["Title"] = "Warning!";
+        noEmail = "It is advised to create a contact through creating a User account process.";
+    }  
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class class="text-danger"><h4>@noEmail @userEmail</h4></div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-3">
+                <label asp-for="AddressLine1" class="control-label"></label>
+                <input asp-for="AddressLine1" class="form-control" />
+                <span asp-validation-for="AddressLine1" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="AddressLine2" class="control-label"></label>
+                <input asp-for="AddressLine2" class="form-control" />
+                <span  class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="AddressLine3" class="control-label"></label>
+                <input asp-for="AddressLine3" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="County" class="control-label"></label>
+                <input asp-for="County" class="form-control" />
+                <span asp-validation-for="County" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Eircode" class="control-label"></label>
+                <input asp-for="Eircode" class="form-control" />
+                <span asp-validation-for="Eircode" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="UserEmail" class="control-label">Email</label>
+                <input asp-for="UserEmail" class="form-control" value="@userEmail" />
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

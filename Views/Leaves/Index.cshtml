@@ -1,0 +1,131 @@
+﻿@model IEnumerable<emsproject23.Models.Leave>
+@inject CurrentUser2 _currentUser
+@using emsproject23.Controllers
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Leaves Page</h1>
+
+
+<div>
+    @{
+        if (TempData["LeaveMsg"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["CreateMessageFail"]
+            </div>
+        }
+        if (TempData["CreateMessageSuccess"] != null)
+        {
+            <div class="alert alert-success">
+                <h5>
+
+                    @TempData["CreateMessageSuccess"]
+                </h5>
+            </div>
+        }
+        //if (TempData["AdminMessage"] != null)
+        //{
+        //    <div class="alert alert-danger">
+        //        <h5>
+        //            @TempData["AdminMessage"]
+        //        </h5>
+        //    </div>
+        //}
+    }
+</div>
+
+
+<p>
+    <a asp-action="Create">Make a Leave Request</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+            </th>
+            <th>
+               Manager's Email
+            </th>
+            <th>
+                Date From
+            </th>
+            <th>
+                Date To
+            </th>
+            <th>
+                No. of Days
+            </th>
+            
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Current Status
+            </th>
+            <th>
+                Reason if denied
+            </th>
+
+
+            <th>
+                Operations
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTo)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.numberOfDays)
+            </td>
+
+
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DenialReason)
+            </td>
+            <td>
+                
+                <a asp-action="Details" asp-route-id="@item.Id" class="alert-info">Details</a>
+                    @{
+                        if (_currentUser.GetLoggedInUser().Email != item.UserEmail)
+                        {
+                            if (item.Status == "Pending")
+                            {
+                                <lable>|</lable>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="alert-warning">Edit</a>
+                                <lable>|</lable>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="alert-danger">Delete</a>
+                                if (_currentUser.GetLoggedInUser().IsManager)
+                                {
+                                    <lable>|</lable>
+                                    <a asp-action="ProcessLeave" asp-route-id="@item.Id" class="alert-success">Process Leave</a>                                                                                   
+                                }                            
+                            }
+                        }
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,74 @@
+﻿@model emsproject23.Models.Leave
+@using emsproject23.Controllers
+@inject CurrentUser2 user
+@{
+    ViewData["Title"] = "Edit";
+    
+}
+<h1></h1>
+
+<h4>Edit your Leave request</h4>
+<hr />
+
+@{
+    if (@TempData["LeaveRqMsg"] != "")
+    {
+    <label class="bg-warning">
+        @TempData["LeaveRqMsg"]
+    </label>
+    }    
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="UserEmail" class="control-label">Email</label>
+                <input asp-for="UserEmail" class="form-control" />
+                <span asp-validation-for="UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ManagerEmail" class="control-label">Manager's Email</label>
+                <input asp-for="ManagerEmail" class="form-control" />
+                <span asp-validation-for="ManagerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DateFrom" class="control-label">Date From</label>
+                <input asp-for="DateFrom" class="form-control" value="@Model.DateFrom.ToString("yyyy-MM-dd")"  />
+                <span asp-validation-for="DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DateTo" class="control-label">Date To</label>
+                <input asp-for="DateTo" class="form-control" value="@Model.DateTo.ToString("yyyy-MM-dd")"  />
+                <span asp-validation-for="DateTo" class="text-danger"></span>
+            </div>            
+            <div class="form-group mb-3">
+                <label asp-for="LeaveType" class="control-label">Leave Type</label>
+                @Html.DropDownList("LeaveType",ViewModelData.GetLeaveTypesSelectList(),"Select",new {@class = "form-control"})
+                <span asp-validation-for="LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">                
+                <label asp-for="Status" class="control-label">Status</label>
+                <input asp-for="Status" class="form-control" readonly />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>            
+            <div class="form-group mb-3">
+                <label asp-for="DenialReason" class="control-label">Reason if denied</label>
+                <input asp-for="DenialReason" class="form-control" readonly />
+                <span asp-validation-for="DenialReason" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-3">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,118 @@
+﻿@model emsproject23.Models.User
+@using emsproject23.Controllers
+@inject CurrentUser2 _loggedInUser;
+
+@{
+    ViewData["JobTitle"] = "Details";
+    string dividerr = "  |  ";    
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2 mb-3">
+            First Name
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.Surname)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Surname)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Email
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Job Title
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.JobTitle)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Manager's Email
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.ManagerEmail)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.DOB)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.DOB)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Leave Entitement
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.LeaveEntitement)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Leave Taken
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.LeaveTaken)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Sick Leave Taken
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.SickLeaveTaken)
+        </dd>        
+        @{
+            if (_loggedInUser.GetLoggedInUser().IsAdmin)
+            {
+                <dt class="col-sm-2" hidden>
+                    @Html.DisplayNameFor(model => model.IsUserLoggedIn)
+                </dt>
+                <dd class = "col-sm-4" hidden>
+                    @Html.DisplayFor(model => model.IsUserLoggedIn)
+                </dd>
+
+
+                <dt class="col-sm-2 mb-3">
+                    Admin User
+                </dt>
+                <dd class="col-sm-10 mb-3">
+                    @Html.DisplayFor(model => model.IsAdmin)
+                </dd>
+
+                <dt class="col-sm-2 mb-3">
+                    Is a Manager
+                </dt>
+                <dd class="col-sm-10 mb-3">
+                    @Html.DisplayFor(model => model.IsManager)
+                </dd>
+
+                <dt class="col-sm-2 mb-3">
+                    Is the CEO
+                </dt>
+                <dd class="col-sm-10 mb-3">
+                    @Html.DisplayFor(model => model.IsCEO)
+                </dd>
+                
+            }
+        }        
+
+
+    </dl>
+</div>
+<div>
+    @{
+        if (_loggedInUser.GetLoggedInUser().IsAdmin &&
+        _loggedInUser.GetLoggedInUser().Email != Model.Email.ToString())
+        {
+            <a asp-action="Edit" asp-route-id="@Model?.Id"> Edit @dividerr</a> 
+        }        
+    }
+    
+    <a asp-action="Index"> All Users</a>
+</div>

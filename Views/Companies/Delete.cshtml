@@ -1,0 +1,54 @@
+﻿@model emsproject23.Models.Company
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+<h1>Delete</h1>
+<div class="text-danger">
+    <h3>Are you sure you want to delete this?</h3>
+</div>
+
+<div>
+    <h4>Company</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.DomainName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DomainName)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            Email
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.LogoURI)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.LogoURI)
+        </dd>
+        <dt class = "col-sm-2" hidden>
+            @Html.DisplayNameFor(model => model.IsToBeDeleted)
+        </dt>
+        <dd class="col-sm-10 mb-3" hidden>
+            @Html.DisplayFor(model => model.IsToBeDeleted)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger  mb-3" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

@@ -1,0 +1,111 @@
+﻿@model emsproject23.Models.User
+@using emsproject23.Controllers
+
+@{
+    ViewData["JobTitle"] = "Edit the User's account";
+}
+
+<h1>@ViewData["JobTitle"]</h1>
+
+<br />
+
+<div>
+    @{        
+        if (TempData["AdminMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <h5>
+                    
+                    @TempData["AdminMessage"]
+                </h5> 
+            </div>
+        }
+    }
+</div>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="FirstName" class="control-label">First Name</label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Surname" class="control-label"></label>
+                <input asp-for="Surname" class="form-control" />
+                <span asp-validation-for="Surname" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="JobTitle" class="control-label">Job Title</label>                
+                @Html.DropDownList("JobTitle",ViewModelData.GetJobTitlesSelectList(),new {@class = "form-control"})
+                <span asp-validation-for="JobTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="ManagerEmail" class="control-label">Manager's Email</label>
+                @Html.DropDownList("ManagerEmail",ViewModelData.GetUsersManagerEmailsSelectList(),new {@class = "form-control"})
+                
+                <span asp-validation-for="ManagerEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DOB" class="control-label"></label>
+                <input asp-for="DOB" class="form-control" value="@Model.DOB.ToString("yyyy-MM-dd")" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="LeaveEntitement" class="control-label">Leave Entitement</label>
+                @Html.DropDownList("LeaveEntitement",ViewModelData.GeGetLeaveAllowancesSelectList(),@Model.LeaveEntitement.ToString(),new {@class = "form-control"})
+                <span asp-validation-for="LeaveEntitement" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="LeaveTaken" class="control-label">Leave Taken</label>
+                <input asp-for="LeaveTaken" class="form-control" />
+                <span asp-validation-for="LeaveTaken" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="SickLeaveTaken" class="control-label">Sick Leave Taken</label>
+                <input asp-for="SickLeaveTaken" class="form-control" />
+                <span asp-validation-for="SickLeaveTaken" class="text-danger"></span>
+            </div>           
+            <div class="form-group form-check" mb-3 hidden>
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsUserLoggedIn" /> @Html.DisplayNameFor(model => model.IsUserLoggedIn)
+                </label>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsAdmin" /> Admin User
+                </label>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsManager" /> Is a Manager
+                </label>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCEO" /> Is the CEO
+                </label>
+            </div>
+            <div class="form-group mb-3 mt-3">
+                <input type="submit" value="Update changes" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index">All Users</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

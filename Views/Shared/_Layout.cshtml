@@ -1,16 +1,58 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor contex
+@inject CurrentUser2 user
+@*@inject EMSDbContext _context*@
+
+@using emsproject23.Data
+
+@using emsproject23.Controllers
+@using Microsoft.AspNetCore.Http;
+@{
+    var email = "";
+    var name = "";
+    var currentYear = DateTime.Now.Year;
+    var compName = "No company set up yet!";
+
+    bool loggedin = false;
+    if (user.GetLoggedInUser() != null)
+    {
+        name = string.Concat(user.GetLoggedInUser().FirstName, " ", user.GetLoggedInUser().Surname);
+        email = user.GetLoggedInUser().Email;
+        loggedin = true;
+    }
+
+    ViewData["Title"] = "Index";
+    var welcomeMsg = "Welcome ";
+    var _context = new EMSDbContext();
+    var comp = _context.Companies.ToList().Where(c => !c.IsToBeDeleted).FirstOrDefault();
+
+    if (comp != null)
+    {
+        compName = comp.Name;
+        welcomeMsg = String.Concat(welcomeMsg, "to ", comp.Name);
+    }
+    
+
+    
+    if (TempData["CompanyMsg"] != null)  {
+       
+        welcomeMsg = TempData["CompanyMsg"].ToString();
+        //welcomeMsg += "- Please ensure there is an active Conpany Details set up!";
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - emsproject23</title>
+    <title>@ViewData["JobTitle"] EMS Project</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/emsproject23.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 position-fixed vw-100">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">emsproject23</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -19,26 +61,104 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <img src="~/images/mksems.png" class="img-fluid" height="50" width="50" alt="Responsive image">
+                        </li>
+
+                        @{
+                            if(loggedin){
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Leaves" asp-action="Index">Leaves</a>
+                                </li> 
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Contacts" asp-action="Index">Contacts</a>
+                                </li>
+                                if(  user.GetLoggedInUser().IsAdmin
+                                  || user.GetLoggedInUser().IsManager
+                                  || user.GetLoggedInUser().IsCEO
+                                 )
+                                {
+                                    
+                                    
+                                    if (user.GetLoggedInUser().IsAdmin || user.GetLoggedInUser().IsCEO)
+                                    {
+                                        <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="LeaveAllowances" asp-action="Index">Leave Allowances</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="LeaveTypes" asp-action="Index">Leave Types</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link text-dark" asp-area="" asp-controller="Companies" asp-action="Index">Company detail</a>
+                                        </li>
+                                    }
+                                }
+
+                            }
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Jobs" asp-action="Index">Jobs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ResetPasses" asp-action="ResetPassword">Password Reset</a>
                         </li>
+                        @{
+                            if(loggedin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserLogins" asp-action="Logout">Logout</a>
+                                </li>
+                            }else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="UserLogins" asp-action="Index">Login</a>
+                                </li>   
+                            }
+                        }
+                                           
                     </ul>
                 </div>
+                <div class="align-content-lg-end m-3">@name</div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3"> 
+            @{
+                if (TempData["CompanyMsg"] != null)
+                {
+                    <br /><br /><br /><br />
+                    <div class="text-danger">
+                        <h1>
+                            
+                            @welcomeMsg
+                        </h1>
+
+                    </div>
+                }
+                else
+                {
+                     <h1>
+                        @welcomeMsg
+                    </h1>
+                }                               
+           }           
+            <br />
+             
+            <p>
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - emsproject23 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @currentYear - @compName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

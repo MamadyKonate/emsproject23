@@ -1,0 +1,35 @@
+﻿@model IEnumerable<emsproject23.Models.LeaveAllowance>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Leave Allowances page</h1>
+
+<p>
+    <a asp-action="Create">Create a new Leave Allowance</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Allowance)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Allowance)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="alert-warning">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="alert-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="alert-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

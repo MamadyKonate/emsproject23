@@ -1,0 +1,98 @@
+﻿@model emsproject23.Models.Leave
+@inject CurrentUser2 _currentUser
+@using emsproject23.Controllers
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Make a Leave request</h1>
+
+<h4>@{
+        if( TempData["LeaveRqMsg"] != null)
+        {
+            <div class="alert-danger">@TempData["LeaveRqMsg"]</div>
+        }
+        
+}</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="form-group mb-3">
+            @{
+                if (!_currentUser.GetLoggedInUser().IsAdmin)
+                {
+                        <label asp-for="UserEmail" class="control-label">Your email </label>
+                    <input type="text" name="UserEmail" value="@_currentUser.GetLoggedInUser().Email" readonly>
+
+                    <br>
+                }
+                else
+                {
+                        <label asp-for="UserEmail" class="control-label">User Email </label>
+                        @Html.DropDownList("UserEmail",ViewModelData.GetUsersEmailsSelectList(),"Select",new {@class = "form-control"})
+                    //<input asp-for="UserEmail" class="form-control" />
+                }
+            }
+            </div>
+            <div class="form-group mb-3">
+                @{
+                    if (!_currentUser.GetLoggedInUser().IsAdmin)
+                    {
+                        <label asp-for="ManagerEmail" class="control-label">Your email </label>
+                        <input type="text" name="ManagerEmail" value="@_currentUser.GetLoggedInUser().ManagerEmail" readonly>
+                        
+                        <br>
+                    }
+                    else
+                    {
+                        <label asp-for="ManagerEmail" class="control-label">Manager's Email</label>
+                        @Html.DropDownList("ManagerEmail",ViewModelData.GetUsersManagerEmailsSelectList(),"Select",new {@class = "form-control"})
+                        //<input asp-for="UserEmail" class="form-control" />
+                    }
+                }
+                
+            </div>            
+            
+            <div class="form-group mb-3">
+                <label asp-for="DateFrom" class="control-label">Date From</label>
+                <input asp-for="DateFrom" class="form-control" />
+                <span asp-validation-for="DateFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DateTo" class="control-label">Date To</label>
+                <input asp-for="DateTo" class="form-control" />
+                <span asp-validation-for="DateTo" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Status" class="control-label"></label>                
+                @Html.DropDownList("Status",ViewModelData.GetLeaveStatusSelectList(),new {@class = "form-control"})
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="LeaveType" class="control-label">Leave Type</label>
+                @Html.DropDownList("LeaveType",ViewModelData.GetLeaveTypesSelectList(),"Select",new {@class = "form-control"})
+                <span asp-validation-for="LeaveType" class="text-danger"></span>
+            </div>            
+            
+            <div class="form-group" hidden>
+                <label asp-for="DenialReason" class="control-label">Reason if denied</label>
+                <input asp-for="DenialReason" class="form-control" value="none"/>
+                <span asp-validation-for="DenialReason" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

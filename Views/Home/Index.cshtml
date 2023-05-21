@@ -1,8 +1,32 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["JobTitle"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div>
+
+        <form asp-asp-controller="AdminUser" asp-action="Create" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="w-auto">
+                            <div class="position-absolute top-50 start-50 translate-middle">
+                                <div class="card align-items-center">
+                                    <div class="card-header">
+                                        <h1 class="card-title" >Welcome</h1>
+                                        <hr />
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div>
+                                            <img src="~/images/home.png" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>

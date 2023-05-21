@@ -1,0 +1,59 @@
+﻿@model IEnumerable<emsproject23.Models.Company>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Company details list</h1>
+
+<p>
+    <a asp-action="Create">Create a new Company details</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DomainName)
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LogoURI)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsToBeDeleted)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DomainName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogoURI)
+            </td>      
+            <td>
+                @Html.DisplayFor(modelItem => item.IsToBeDeleted)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="alert-warning">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="alert-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="alert-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

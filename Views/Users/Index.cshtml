@@ -1,0 +1,201 @@
+﻿@model IEnumerable<emsproject23.Models.User>
+@using emsproject23.Controllers
+@inject CurrentUser2 _loggedInUser;
+
+
+@{
+    ViewData["JobTitle"] = "Index";
+    string divider = "  |  ";
+}
+
+<h1>User accounts page</h1>
+
+<div>
+    @{
+        if (TempData["CreateMessageFail"]!=null)
+        {
+            <div class="alert alert-danger">
+                @TempData["CreateMessageFail"]
+            </div>
+        }
+        if (TempData["CreateMessageSuccess"] != null || TempData["AdminMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <h5>
+                    
+                    @TempData["CreateMessageSuccess"]@TempData["AdminMessage"]
+                </h5> 
+            </div>
+        }
+    }
+</div>
+
+<div class="mb-2 d-flex flex-row"><h1>@ViewData["Title"]</h1></div>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@*
+FOR DISPLAYING STUFF TO THE RIGHT, USE flex-row-reverse
+<div class="d-flex flex-row-reverse mt-5 border border-primary pt-3 mb-5 bg-light "> *@
+
+@{
+    if (_loggedInUser.GetLoggedInUser().IsManager ||
+        _loggedInUser.GetLoggedInUser().IsCEO ||
+        _loggedInUser.GetLoggedInUser().IsAdmin)
+    {
+        <div class="d-flex flex-sm-row mt-5 border  pt-3 mb-5 bg-light w-75">    
+
+            <div class="align-content-between">
+                <form method="post">
+                    <div class="row g-4 w-50 m-sm-auto">
+                        <div class="col">
+                            <input type="text" name="nameToFind" />
+                        </div>
+                        <div class="col">
+                            <input asp-controller="Users" asp-action="FindByName" type="submit" value="Search in fullname" class="btn btn-primary mb-3" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+            <div>
+                <form method="post">
+                    <div class="row g-4 w-50 m-sm-auto">
+                        <div class="col">
+                            <input type="text" name="TitleToFind" />
+                        </div>
+                        <div class="col">
+                            <input asp-controller="Users" asp-action="FindByJobTitle" type="submit" value="Search by Job Title" class="btn btn-primary mb-3" />
+                        </div>
+                    </div>
+                </form>
+            </div>    
+        </div>
+    }
+}
+<p>
+    @{
+        if (_loggedInUser.GetLoggedInUser().IsAdmin)
+        {
+            <a asp-action="Create">Create a new User account</a>
+        }        
+    }
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Surname)
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Job Title
+            </th>
+            <th>
+                Manager's Email
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th>
+                Leave Entitement
+            </th>
+            <th>
+                Leave Taken
+            </th>
+            
+            <th>
+                Sick Leave Taken
+            </th>   
+
+            @{
+                if (_loggedInUser.GetLoggedInUser().IsAdmin)
+                {  
+                    <th>
+                        Admin User
+                    </th>
+                    <th>
+                        Is a Manager
+                    </th>
+                    <th>
+                        Is the CEO
+                    </th>
+                }
+            }
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ManagerEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DOB)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.LeaveEntitement)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.LeaveTaken)
+            </td>
+            <td align="center">
+                @Html.DisplayFor(modelItem => item.SickLeaveTaken)
+            </td>
+           
+
+            @{
+                if (_loggedInUser.GetLoggedInUser().IsAdmin)
+                {
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.IsAdmin)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.IsManager)
+                    </td>
+                    <td align="center">
+                        @Html.DisplayFor(modelItem => item.IsCEO)
+                    </td>
+            
+                }
+                    <td>
+
+                        <a asp-action="Details" asp-route-id="@item.Id" class="alert-info">Details</a> 
+
+                        @{   
+                            if(_loggedInUser.GetLoggedInUser().IsAdmin &&
+                            _loggedInUser.GetLoggedInUser().Email != item.Email)
+                            {
+                               @divider <a asp-action="Edit" asp-route-id="@item.Id" class="alert-warning">Edit</a> @divider          
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="alert-danger">Delete</a>  
+                            }
+                         }
+                
+                    </td>                
+            }                
+            
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,66 @@
+﻿@model emsproject23.Models.Contact
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Contact</h4>
+    <hr />
+    <dl class="row mb-3">
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.AddressLine1)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.AddressLine1)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.AddressLine2)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.AddressLine2)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.AddressLine3)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.AddressLine3)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.City)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.County)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.County)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.Eircode)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.Eircode)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-2 mb-3">
+            @Html.DisplayNameFor(model => model.UserEmail)
+        </dt>
+        <dd class="col-sm-10 mb-3">
+            @Html.DisplayFor(model => model.UserEmail)
+        </dd>
+    </dl>
+</div>
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

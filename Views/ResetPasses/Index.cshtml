@@ -1,0 +1,54 @@
+﻿@model IEnumerable<emsproject23.ViewModels.ResetPass>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Reset Password</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email
+                
+            </th>
+            <th>
+                Current Password
+            </th>
+            <th>
+                New Password
+            </th>
+            <th>
+                Re-enter New Password
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CurrentPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NewPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReEnterNewPassword)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id" class="alert-warning">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id" class="alert-info">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id" class="alert-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
