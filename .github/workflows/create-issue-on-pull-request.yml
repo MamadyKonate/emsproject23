@@ -1,0 +1,36 @@
+name: Create Issue on Pull Request
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  create-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pull_request_number=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          pull_request_title=$(jq --raw-output .pull_request.title "$GITHUB_EVENT_PATH")
+          repository_full_name=$(jq --raw-output .repository.full_name "$GITHUB_EVENT_PATH")
+          issue_title="Issue: $pull_request_title"
+          issue_body="This issue is created for pull request #$pull_request_number in $repository_full_name."
+          
+          response=$(curl -X POST \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "title": "'"${issue_title}"'",
+              "body": "'"${issue_body}"'",
+              "labels": ["pull-request"]
+            }' \
+            "https://api.github.com/repos/$repository_full_name/issues")
+            
+          echo "Issue created: $(echo "$response" | jq -r .html_url)"
