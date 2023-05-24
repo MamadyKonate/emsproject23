@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Restore project dependencies    
-      working-directory: ./EMSProject
+#      working-directory: ./EMSProject
     
       # restores the project depedencies and tools 
       run: dotnet restore
