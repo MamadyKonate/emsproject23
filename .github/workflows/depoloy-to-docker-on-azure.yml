@@ -25,11 +25,11 @@ jobs:
       run: dotnet build --no-restore
     
     # Getting out of the project to go back up 1 level, then get into EMSTestProject
-#    - name: Go back one level
-#      run: cd ..
+    - name: Go back one level
+      run: cd ..
       
     - name: Test
-#      working-directory: ./EMSTestProject
+      working-directory: ./emsproject23
       run: dotnet test --no-build --verbosity normal
       
       
